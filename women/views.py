@@ -7,6 +7,15 @@ from women.models import Women
 from women.serializers import WomenSerializer
 
 
+# ListCreateAPIView. Используется для конечных точек чтения-записи для представления коллекции экземпляров модели.
+# Предоставляет обработчики методов get и post.
+# Расширяет: GenericAPIView, ListModelMixin, CreateModelMixin
+
+class WomenAPIList(generics.ListCreateAPIView):
+    queryset = Women.objects.all()  # данные которые возвращаются ао запросу
+    serializer_class = WomenSerializer  # класс serializer_class, который обрабатывает queryset
+
+
 class WomenAPIView(APIView):
     def get(self, request):
         lst = Women.objects.all()
