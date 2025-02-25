@@ -18,7 +18,7 @@ from women.permiss import IsAdminOrReadOnly, IsOwnerOrReadOnly
 class WomenAPIList(generics.ListCreateAPIView):
     queryset = Women.objects.all()  # данные которые возвращаются ао запросу
     serializer_class = WomenSerializer  # класс serializer_class, который обрабатывает queryset
-    # permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
 
 # UpdateAPIView. Используется только для конечных точек обновления для одного экземпляра модели.
