@@ -1,12 +1,13 @@
 from django.forms import model_to_dict
 from django.shortcuts import render
 from rest_framework import generics, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from women.models import Women, Category
 from women.serializers import WomenSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from women.permiss import IsAdminOrReadOnly, IsOwnerOrReadOnly
 
 
@@ -26,10 +27,11 @@ class WomenAPIList(generics.ListCreateAPIView):
 # Расширяет: GenericAPIView, UpdateModelMixin
 
 
-class WomenAPIUpdate(generics.UpdateAPIView):
+class WomenAPIUpdate(generics.RetrieveUpdateAPIView):
     queryset = Women.objects.all()  # данные которые возвращаются ао запросу
     serializer_class = WomenSerializer  # класс serializer_class, который обрабатывает queryset
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (TokenAuthentication, )  # доступ только тем пользователям, которые получают доступ именно по токенам, по ссесиям нет.
 
 
 # RetrieveUpdateDestroyAPIView. Используется для конечных точек чтения, записи и удаления для представления одного экземпляра модели.
